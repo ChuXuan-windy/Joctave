@@ -50,7 +50,6 @@ public class Joctave
         {
             e.printStackTrace();
         }
-        System.exit(0);
     }
     /*
         execute command like running octave in the shell,return all replying message;
@@ -119,6 +118,7 @@ class OctaveStopException extends Exception
 
     public OctaveStopException(Process octave)
     {
+        super();
         this.octave = octave;
     }
 }
