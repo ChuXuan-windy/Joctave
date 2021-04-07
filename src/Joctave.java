@@ -4,7 +4,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 //This Class stand for a session in octave,a process will be created when created instance.
 //the session will close automatic after the program close;
-public class Joctave
+public class Joctave implements AutoCloseable
 {
     private final Process octave;
     private Reader reader;
@@ -41,7 +41,7 @@ public class Joctave
         reader = new InputStreamReader(octave.getInputStream());
         writer = new PrintWriter(new OutputStreamWriter(octave.getOutputStream()));
         startThread();
-        Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::close));
         try
         {
             reply.take();
@@ -106,7 +106,7 @@ public class Joctave
         t.start();
     }
     //stop the session,it will run automatic after the program close;
-    public void stop()
+    public void close()
     {
         octave.destroy();
     }
